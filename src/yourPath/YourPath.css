@@ -1,0 +1,27 @@
+.YourPath_Container {
+  margin: 10rem 10rem;
+  padding: 5rem;
+  height: 75vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background-color: azure;
+}
+
+span {
+  margin: 1rem;
+}
+
+.LinkButton:hover {
+  box-shadow: 1px 3px 1px rgba(0, 0, 0, 0.22);
+  transform: translate(0, -0.75rem);
+  transition: 0.2s all;
+}
+
+.LinkButton:active {
+  box-shadow: 1px 3px 1px rgba(0, 0, 0, 0.22);
+  transform: translate(0, -0.2rem);
+  transition: 0.1s all;
+}
