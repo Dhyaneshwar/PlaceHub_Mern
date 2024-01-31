@@ -27,6 +27,10 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/:pid/places",
+    element: <UpdatePlace />,
+  },
 ]);
 
 function App() {
