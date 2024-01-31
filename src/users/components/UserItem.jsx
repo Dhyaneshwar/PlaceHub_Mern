@@ -5,10 +5,10 @@ import { Link } from "react-router-dom";
 import Card from "../../shared/components/UIElements/Card";
 
 const UserItem = (props) => {
-  const { key, id, name, image, placeCount } = props;
+  const { id, name, image, placeCount } = props;
 
   return (
-    <li className="user-item" key={key} id={id}>
+    <li className="user-item" id={id}>
       <Card className="user-item__content">
         <Link to={`/${id}/places`}>
           <div className="user-item__image">

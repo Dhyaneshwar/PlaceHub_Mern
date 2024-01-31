@@ -22,8 +22,8 @@ function YourPath({ helloVal, byeVal, yourAct }) {
       <StyledButton className="LinkButton" onClick={onClickHandler}>
         Click me to test sagas
       </StyledButton>
-      <span>Hello - {helloVal.toString()}</span>
-      <span>Bye - {byeVal.toString()}</span>
+      <StyledSpan>Hello - {helloVal.toString()}</StyledSpan>
+      <StyledSpan>Bye - {byeVal.toString()}</StyledSpan>
     </div>
   );
 }
@@ -47,4 +47,8 @@ const StyledButton = styled.button`
   padding: 0.25rem 1rem;
   font-size: 2rem;
   margin: 2rem 0;
+`;
+
+const StyledSpan = styled.span`
+  margin: 1rem;
 `;
