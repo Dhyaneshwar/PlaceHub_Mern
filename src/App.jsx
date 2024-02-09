@@ -6,6 +6,7 @@ import YourPath from "./yourPath/yourPath.jsx";
 import MainNavigation from "./shared/components/Navigation/MainNavigation.jsx";
 import UserPlaces from "./places/containers/UserPlaces.jsx";
 import UpdatePlaces from "./places/containers/UpdatePlaces.jsx";
+import Auth from "./users/containers/Auth.jsx";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +60,17 @@ const router = createBrowserRouter([
         <MainNavigation />
         <main>
           <UpdatePlaces />
+        </main>
+      </>
+    ),
+  },
+  {
+    path: "/auth",
+    element: (
+      <>
+        <MainNavigation />
+        <main>
+          <Auth />
         </main>
       </>
     ),
