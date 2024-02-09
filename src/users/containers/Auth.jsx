@@ -10,9 +10,14 @@ import {
 } from "../../shared/util/validators";
 import "./Auth.css";
 import useForm from "../../shared/hooks/form-hooks";
+import { connect } from "react-redux";
+import { getIsLoggedInSelector } from "../../redux/selectors/authSelector";
+import { logInAction, logOutAction } from "../../redux/actions/authAction";
+import { useNavigate } from "react-router-dom";
 
-const Auth = () => {
+const Auth = (props) => {
   const [isLoginMode, setIsLoginMode] = useState(true);
+  const navigate = useNavigate();
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -55,6 +60,8 @@ const Auth = () => {
   const authSubmitHandler = (event) => {
     event.preventDefault();
     console.log(formState.inputs);
+    props.logIn();
+    navigate("/");
   };
 
   return (
@@ -102,4 +109,15 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: getIsLoggedInSelector(state),
+  };
+};
+
+const mapDispatchToProps = {
+  logIn: logInAction,
+  logOut: logOutAction,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);

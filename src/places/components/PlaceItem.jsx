@@ -4,6 +4,8 @@ import Card from "../../shared/components/UIElements/Card";
 import Button from "../../shared/components/FormElements/Button";
 import "./PlaceItem.css";
 import Modal from "../../shared/components/UIElements/Modal";
+import { getIsLoggedInSelector } from "../../redux/selectors/authSelector";
+import { connect } from "react-redux";
 
 const PlaceItem = (props) => {
   const [showMap, setShowMap] = useState(false);
@@ -79,10 +81,14 @@ const PlaceItem = (props) => {
             <Button inverse onClick={openMapHandler}>
               VIEW ON MAP
             </Button>
-            <Button to={`/places/${props.id}`}>EDIT</Button>
-            <Button danger onClick={showDeleteWarningHandler}>
-              DELETE
-            </Button>
+            {props.isLoggedIn && (
+              <>
+                <Button to={`/places/${props.id}`}>EDIT</Button>
+                <Button danger onClick={showDeleteWarningHandler}>
+                  DELETE
+                </Button>
+              </>
+            )}
           </div>
         </Card>
       </li>
@@ -90,4 +96,12 @@ const PlaceItem = (props) => {
   );
 };
 
-export default PlaceItem;
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: getIsLoggedInSelector(state),
+  };
+};
+
+const mapDispatchToProps = {};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlaceItem);
