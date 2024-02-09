@@ -17,6 +17,19 @@ const PlaceItem = (props) => {
     setShowMap(false);
   };
 
+  const showDeleteWarningHandler = () => {
+    setShowConfirmModal(true);
+  };
+
+  const cancelDeleteHandler = () => {
+    setShowConfirmModal(false);
+  };
+
+  const confirmDeleteHandler = () => {
+    setShowConfirmModal(false);
+    console.log("DELETING...");
+  };
+
   return (
     <>
       <Modal
