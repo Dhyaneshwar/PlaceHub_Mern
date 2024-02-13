@@ -17,6 +17,7 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "lodash": "^4.17.21",
     "nodemon": "^3.0.3"
   }
 }

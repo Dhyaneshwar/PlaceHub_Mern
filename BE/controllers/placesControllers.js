@@ -3,6 +3,7 @@ const HttpError = require("../models/http-errors");
 const { validationResult } = require("express-validator");
 const getCoordsForAddress = require("../util/location");
 const Places = require("../models/places");
+const _ = require("lodash");
 
 let DUMMY_PLACES = [
   {
@@ -33,13 +34,25 @@ let DUMMY_PLACES = [
   },
 ];
 
-const getPlacesByUserId = (req, res) => {
+const getPlacesByUserId = async (req, res, next) => {
   const { uid } = req.params;
-  console.log("/user/:uid");
-  const place = DUMMY_PLACES.filter((place) => place.creator == uid);
-  if (!place) {
-    throw new HttpError("Could not find a place for the provided id", 404);
+  let place = [];
+
+  try {
+    place = await Places.where("creator", uid).exec();
+  } catch (err) {
+    return next(
+      new HttpError("Something went wrong, could not find a place", 500)
+    );
   }
+
+  console.log(place);
+  if (_.isEmpty(place)) {
+    return next(
+      new HttpError("Could not find a place for the provided id", 404)
+    );
+  }
+  place = place.map((p) => p.toObject({ getters: true }));
   res.json({ place });
 };
 
