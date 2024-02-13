@@ -1,5 +1,6 @@
 const express = require("express");
 const body_parser = require("body-parser");
+const mongoose = require("mongoose");
 
 const placesRoutes = require("./routes/placesRoutes");
 const usersRoutes = require("./routes/usersRoutes");
@@ -26,5 +27,14 @@ app.use((error, req, res, next) => {
     .json({ message: error.message || "An unknown error occurred!" });
 });
 
-PORT = process.env.PORT || 5000;
-app.listen(PORT);
+const { DB_USERNAME, DB_PASSWORD, DB_CLUSTER, DB_NAME } = process.env;
+
+mongoose
+  .connect(
+    `mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@${DB_CLUSTER}/${DB_NAME}?retryWrites=true&w=majority`
+  )
+  .then(() => {
+    PORT = process.env.PORT || 5000;
+    app.listen(PORT);
+  })
+  .catch((err) => console.log(err));
