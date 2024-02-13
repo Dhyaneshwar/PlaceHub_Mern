@@ -9,6 +9,10 @@ import "./YourPath.css";
 import styled from "styled-components";
 
 function YourPath({ helloVal, byeVal, yourAct }) {
+  console.log("Few ways to print the ENV variables value:-");
+  console.log("VITE_PORT-->", process.env.VITE_PORT);
+  console.log("VITE_HELLO-->", import.meta.env.VITE_HELLO);
+
   const onClickHandler = () => {
     console.log("button clicked");
     console.log("Hello -", helloVal);
