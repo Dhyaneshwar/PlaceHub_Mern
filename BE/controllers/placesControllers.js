@@ -2,6 +2,7 @@ const { v4: uuid } = require("uuid");
 const HttpError = require("../models/http-errors");
 const { validationResult } = require("express-validator");
 const getCoordsForAddress = require("../util/location");
+const Places = require("../models/places");
 
 let DUMMY_PLACES = [
   {
@@ -42,7 +43,7 @@ const getPlacesByUserId = (req, res) => {
   res.json({ place });
 };
 
-const createPlace = async (req, res) => {
+const createPlace = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     next(new HttpError("Invalid inputs passed, please check your data.", 422));
@@ -56,29 +57,42 @@ const createPlace = async (req, res) => {
     return next(error);
   }
 
-  const createdPlace = {
-    id: uuid(),
-    title,
-    description,
-    location: coordinates,
-    address,
-    creator,
-  };
+  try {
+    const createdPlace = await Places.create({
+      title,
+      description,
+      address,
+      location: coordinates,
+      imageUrl:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/NYC_Empire_State_Building.jpg/640px-NYC_Empire_State_Building.jpg",
+      creator,
+    });
 
-  DUMMY_PLACES.push(createdPlace);
-  res.status(201).json({ place: createdPlace });
+    res.status(201).json({ place: createdPlace });
+  } catch (err) {
+    console.log(err);
+    next(new HttpError("Creating place failed, please try again"), 500);
+  }
 };
 
-const getPlaceById = (req, res, next) => {
-  console.log("get--/:pid");
+const getPlaceById = async (req, res, next) => {
   const { pid: placeId } = req.params;
-  const place = DUMMY_PLACES.find((place) => place.id === placeId);
+  let place;
+
+  try {
+    place = await Places.findById(placeId);
+  } catch (err) {
+    return next(
+      new HttpError("Something went wrong, could not find a place", 500)
+    );
+  }
+
   if (!place) {
     return next(
       new HttpError("Could not find a place for the provided id", 404)
     );
   }
-  res.json({ place });
+  res.json({ place: place.toObject({ getters: true }) });
 };
 
 const updateById = (req, res) => {
