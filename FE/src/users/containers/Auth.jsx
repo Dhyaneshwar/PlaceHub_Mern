@@ -57,9 +57,23 @@ const Auth = (props) => {
     setIsLoginMode((prevMode) => !prevMode);
   };
 
-  const authSubmitHandler = (event) => {
+  const authSubmitHandler = async (event) => {
     event.preventDefault();
     console.log(formState.inputs);
+    if (isLoginMode) {
+    } else {
+      const response = await fetch("http://localhost:3001/api/users/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formState.inputs.name.value,
+          email: formState.inputs.email.value,
+          password: formState.inputs.password.value,
+        }),
+      });
+    }
     props.logIn();
     navigate("/");
   };
