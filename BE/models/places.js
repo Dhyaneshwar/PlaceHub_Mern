@@ -16,7 +16,7 @@ const placeSchema = new Schema({
   imageUrl: { type: String, required: true },
   address: { type: String, required: true },
   location: { type: locationSchema, required: true },
-  creator: { type: String, required: true },
+  creator: { type: mongoose.Types.ObjectId, required: true, ref: "User" },
 });
 
 module.exports = mongoose.model("Place", placeSchema);
